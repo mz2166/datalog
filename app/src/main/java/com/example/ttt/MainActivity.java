@@ -2,6 +2,7 @@ package com.example.ttt;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         btnLogin =findViewById(R.id.btn_login);
         btnSignup = findViewById(R.id.btn_signup);
         FirebaseAuth mAuth=FirebaseAuth.getInstance();
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,19 +48,23 @@ public class MainActivity extends AppCompatActivity {
                     return;
 
                 }
+
                 if(password.length()<6){
                     Toast.makeText(MainActivity.this, "password must be more than 6 characters", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                     Toast.makeText(MainActivity.this, "invalid email", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            Toast.makeText(MainActivity.this, "succeful login", Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(MainActivity.this,MainActivity2.class);
+                            startActivity(intent);
 
                         }
                         else {
